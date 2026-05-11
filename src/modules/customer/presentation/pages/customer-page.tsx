@@ -6,8 +6,8 @@ export function CustomersPage() {
   const customersList = Array.isArray(Customers) ? Customers : [];
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Produtos</h1>
+    <div>
+      <h1 style={{ marginTop: 0 }}>Clientes</h1>
 
       {loading && <p>Carregando clientes...</p>}
       {error && <p>{error}</p>}

@@ -1,25 +1,61 @@
-import { Link as RouterLink } from "react-router";
+import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Customer } from "../../domain/entities/customer";
-import { Card, CardContent, Typography, Link, Box } from "@mui/material";
 
-export function CustomerCard({ Customer }: { Customer: Customer }) {
+import { Box } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { getCustomerColumns } from "../config/columns";
+
+type Props = {
+  customers: Customer[];
+};
+
+export function CustomerDataGrid({ customers }: Props) {
+  const navigate = useNavigate();
+
+  const columns = useMemo(
+    () =>
+      getCustomerColumns({
+        onNavigate: (id) => navigate(`/customers/${id}`),
+      }),
+    [navigate],
+  );
+
   return (
-    <Card elevation={2} sx={{ mb: 2 }}>
-      <CardContent>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }} gutterBottom>
-          {Customer.name}
-        </Typography>
-
-        <Box>
-          <Link
-            component={RouterLink}
-            to={`/customers/${Customer.id}`}
-            underline="hover"
-          >
-            Ver detalhes
-          </Link>
-        </Box>
-      </CardContent>
-    </Card>
+    <Box
+      sx={{
+        width: "100%",
+        height: 600,
+        minHeight: 0,
+        overflow: "hidden",
+      }}
+    >
+      <DataGrid
+        rows={customers}
+        columns={columns}
+        getRowId={(row) => row.id}
+        disableRowSelectionOnClick
+        sx={{
+          height: "100%",
+          width: "100%",
+          minWidth: 0,
+          "& .MuiDataGrid-main": {
+            overflow: "hidden",
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            minWidth: "max-content",
+          },
+          "& .MuiDataGrid-virtualScrollerContent": {
+            minWidth: "max-content",
+          },
+          "& .MuiDataGrid-footerContainer": {
+            minWidth: "max-content",
+          },
+          "& .MuiDataGrid-virtualScroller": {
+            overflow: "auto !important",
+          },
+        }}
+      />
+    </Box>
   );
 }

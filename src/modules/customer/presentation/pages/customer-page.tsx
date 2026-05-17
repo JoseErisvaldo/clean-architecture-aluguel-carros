@@ -2,10 +2,10 @@ import { useNavigate } from "react-router-dom";
 
 import ContainerLayout from "../../../../shared/components/layout/container/contaier.view";
 import { PageHeader } from "../../../../shared/components/layout/page-header/page-header";
-import { CustomerCard } from "../components/customer-card";
+import { CustomerDataGrid } from "../components/customer-card";
 import { useCustomers } from "../hooks/use-customer";
 
-import { Box, CircularProgress, Typography, Alert, Stack } from "@mui/material";
+import { Alert, Box, CircularProgress, Typography } from "@mui/material";
 
 export function CustomersPage() {
   const navigate = useNavigate();
@@ -42,11 +42,9 @@ export function CustomersPage() {
       )}
 
       {!loading && !error && (
-        <Stack sx={{ mt: 2 }}>
-          {customersList.map((Customer) => (
-            <CustomerCard key={Customer.id} Customer={Customer} />
-          ))}
-        </Stack>
+        <Box sx={{ mt: 2, width: "100%", minWidth: 0 }}>
+          <CustomerDataGrid customers={customersList} />
+        </Box>
       )}
     </ContainerLayout>
   );

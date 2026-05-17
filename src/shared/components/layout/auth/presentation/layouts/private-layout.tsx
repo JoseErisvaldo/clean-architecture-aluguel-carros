@@ -57,7 +57,7 @@ export function PrivateLayout() {
       <Box
         component="nav"
         sx={{
-          width: { md: desktopDrawerWidth },
+          width: { xs: 0, md: desktopDrawerWidth },
           flexShrink: { md: 0 },
           transition: "width 0.2s ease",
         }}
@@ -73,7 +73,7 @@ export function PrivateLayout() {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          minWidth: 0,
           mt: "64px",
           width: { md: `calc(100% - ${desktopDrawerWidth}px)` },
           transition: "all 0.2s ease",

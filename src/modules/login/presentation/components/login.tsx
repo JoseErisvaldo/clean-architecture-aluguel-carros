@@ -2,7 +2,7 @@ import { Box, Paper, Typography, TextField, Button } from "@mui/material";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLogin } from "../hooks/use-login";
-import { useAuth } from "../../../../shared/auth/presentation/hooks/use-auth";
+import { useAuth } from "../../../../shared/components/layout/auth/presentation/hooks/use-auth";
 
 export default function Login() {
   const [email, setEmail] = useState("");

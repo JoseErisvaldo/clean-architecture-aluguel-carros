@@ -1,4 +1,4 @@
-import { AuthStorage } from "../../../../shared/auth/infrastructure/storage/auth-storage";
+import { AuthStorage } from "../../../../shared/components/layout/auth/infrastructure/storage/auth-storage";
 import type { Login } from "../../domain/entities/login";
 import type { LoginRepository } from "../../domain/repositories/login-repositories";
 

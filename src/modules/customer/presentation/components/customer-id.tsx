@@ -1,21 +1,50 @@
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
 import { useCustomerById } from "../hooks/use-customer";
+import { Box, CircularProgress, Paper, Typography } from "@mui/material";
 
 export default function CustomerId() {
   const { id } = useParams<{ id: string }>();
-  const data = useCustomerById(id ?? "");
+
+  const { Customer, loading, error } = useCustomerById(id ?? "");
+
+  console.log("CustomerId data:", { Customer, loading, error });
 
   return (
-    <div style={{ border: "1px solid #ccc", padding: 12, marginBottom: 10 }}>
-      <Link to="/">Voltar</Link>
-      <h3>Customer ID: {id}</h3>
-      {data.loading && <p>Carregando cliente...</p>}
-      {data.error && <p>{data.error}</p>}
-      {data && data.Customer && (
-        <div>
-          <p>Name: {data.Customer.name}</p>
-        </div>
-      )}
-    </div>
+    <Box>
+      <Paper elevation={2} sx={{ p: 3 }}>
+        {loading && (
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <CircularProgress size={20} />
+            <Typography>Carregando cliente...</Typography>
+          </Box>
+        )}
+
+        {error && <Typography color="error">{error}</Typography>}
+
+        {Customer && !loading && !error && (
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="body1">
+              <strong>Nome:</strong> {Customer.name}
+            </Typography>
+
+            <Typography variant="body1">
+              <strong>Email:</strong> {Customer.email}
+            </Typography>
+
+            <Typography variant="body1">
+              <strong>Telefone:</strong> {Customer.phone}
+            </Typography>
+
+            <Typography variant="body1">
+              <strong>Documento:</strong> {Customer.document}
+            </Typography>
+
+            <Typography variant="body2" color="text.secondary">
+              Criado em: {new Date(Customer.created_at).toLocaleString()}
+            </Typography>
+          </Box>
+        )}
+      </Paper>
+    </Box>
   );
 }

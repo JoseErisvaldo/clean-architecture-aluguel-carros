@@ -12,7 +12,16 @@ export function LogoutButton() {
   };
 
   return (
-    <Button fullWidth variant="outlined" color="inherit" onClick={handleLogout}>
+    <Button
+      fullWidth
+      variant="outlined"
+      color="inherit"
+      onClick={handleLogout}
+      sx={{
+        fontWeight: 600,
+        textTransform: "none",
+      }}
+    >
       Sair
     </Button>
   );

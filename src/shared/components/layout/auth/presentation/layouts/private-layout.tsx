@@ -6,19 +6,12 @@ import { DRAWER_WIDTH, PrivateSidebar } from "../components/private-sidebar";
 export function PrivateLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [desktopOpen, setDesktopOpen] = useState(true);
+
   const desktopDrawerWidth = desktopOpen ? DRAWER_WIDTH : 0;
 
-  const handleToggleMobile = () => {
-    setMobileOpen((prev) => !prev);
-  };
-
-  const handleToggleDesktop = () => {
-    setDesktopOpen((prev) => !prev);
-  };
-
-  const handleCloseMobile = () => {
-    setMobileOpen(false);
-  };
+  const toggleMobile = () => setMobileOpen((prev) => !prev);
+  const closeMobile = () => setMobileOpen(false);
+  const toggleDesktop = () => setDesktopOpen((prev) => !prev);
 
   return (
     <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#f6f7fb" }}>
@@ -30,40 +23,31 @@ export function PrivateLayout() {
           borderBottom: "1px solid #e7e8ef",
           width: { md: `calc(100% - ${desktopDrawerWidth}px)` },
           ml: { md: `${desktopDrawerWidth}px` },
-          transition: "margin 0.2s ease, width 0.2s ease",
+          transition: "all 0.2s ease",
         }}
       >
         <Toolbar>
           <IconButton
-            color="inherit"
-            onClick={handleToggleDesktop}
+            onClick={toggleDesktop}
             aria-label={
               desktopOpen ? "Fechar menu lateral" : "Abrir menu lateral"
             }
             sx={{ mr: 1, display: { xs: "none", md: "inline-flex" } }}
           >
-            <Box
-              component="span"
-              sx={{ fontSize: 20, fontWeight: 700, lineHeight: 1 }}
-            >
+            <Typography sx={{ fontSize: 18, fontWeight: 700 }}>
               {desktopOpen ? "❮" : "❯"}
-            </Box>
+            </Typography>
           </IconButton>
 
           <IconButton
-            color="inherit"
             edge="start"
-            onClick={handleToggleMobile}
-            sx={{ mr: 2, display: { md: "none" } }}
+            onClick={toggleMobile}
             aria-label="Abrir menu"
+            sx={{ mr: 2, display: { md: "none" } }}
           >
-            <Box
-              component="span"
-              sx={{ fontSize: 20, fontWeight: 700, lineHeight: 1 }}
-            >
-              ≡
-            </Box>
+            <Typography sx={{ fontSize: 20, fontWeight: 700 }}>≡</Typography>
           </IconButton>
+
           <Typography variant="h6" sx={{ fontWeight: 700 }}>
             Aluguel de carros
           </Typography>
@@ -80,7 +64,7 @@ export function PrivateLayout() {
       >
         <PrivateSidebar
           mobileOpen={mobileOpen}
-          onCloseMobile={handleCloseMobile}
+          onCloseMobile={closeMobile}
           desktopOpen={desktopOpen}
         />
       </Box>
@@ -88,11 +72,11 @@ export function PrivateLayout() {
       <Box
         component="main"
         sx={{
-          flex: 1,
+          flexGrow: 1,
           p: 3,
-          width: { xs: "100%", md: `calc(100% - ${desktopDrawerWidth}px)` },
           mt: "64px",
-          transition: "width 0.2s ease",
+          width: { md: `calc(100% - ${desktopDrawerWidth}px)` },
+          transition: "all 0.2s ease",
         }}
       >
         <Outlet />

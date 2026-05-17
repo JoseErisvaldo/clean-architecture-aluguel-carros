@@ -23,9 +23,8 @@ const navigationItems = [{ label: "Clientes", to: "/" }];
 
 function isItemActive(pathname: string, to: string) {
   if (to === "/") {
-    return pathname === "/" || pathname.startsWith("/Customers/");
+    return pathname === "/" || pathname.startsWith("/Customers");
   }
-
   return pathname.startsWith(to);
 }
 
@@ -36,27 +35,53 @@ export function PrivateSidebar({
 }: PrivateSidebarProps) {
   const location = useLocation();
 
-  const content = (
-    <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+  const drawerContent = (
+    <Box
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Toolbar>
-        <Typography variant="h6" sx={{ fontWeight: 700 }}>
+        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           Painel
         </Typography>
       </Toolbar>
+
       <Divider />
 
-      <List sx={{ flex: 1 }}>
-        {navigationItems.map((item) => (
-          <ListItemButton
-            key={item.to}
-            component={Link}
-            to={item.to}
-            selected={isItemActive(location.pathname, item.to)}
-            onClick={onCloseMobile}
-          >
-            <ListItemText primary={item.label} />
-          </ListItemButton>
-        ))}
+      <List sx={{ flex: 1, px: 1 }}>
+        {navigationItems.map((item) => {
+          const active = isItemActive(location.pathname, item.to);
+
+          return (
+            <ListItemButton
+              key={item.to}
+              component={Link}
+              to={item.to}
+              selected={active}
+              onClick={onCloseMobile}
+              sx={{
+                borderRadius: 1,
+                mx: 1,
+                mb: 0.5,
+                "&.Mui-selected": {
+                  backgroundColor: "action.selected",
+                },
+              }}
+            >
+              <ListItemText
+                primary={item.label}
+                slotProps={{
+                  primary: {
+                    sx: { fontWeight: active ? 600 : 400 },
+                  },
+                }}
+              />
+            </ListItemButton>
+          );
+        })}
       </List>
 
       <Box sx={{ p: 2 }}>
@@ -80,12 +105,11 @@ export function PrivateSidebar({
           },
         }}
       >
-        {content}
+        {drawerContent}
       </Drawer>
 
       <Drawer
         variant="permanent"
-        open={desktopOpen}
         sx={{
           display: { xs: "none", md: desktopOpen ? "block" : "none" },
           "& .MuiDrawer-paper": {
@@ -93,8 +117,9 @@ export function PrivateSidebar({
             boxSizing: "border-box",
           },
         }}
+        open
       >
-        {content}
+        {drawerContent}
       </Drawer>
     </>
   );

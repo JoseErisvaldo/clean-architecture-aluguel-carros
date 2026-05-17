@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { AuthProvider } from "../../shared/auth/presentation/providers/auth-provider";
+import { AuthProvider } from "../../shared/components/layout/auth/presentation/providers/auth-provider";
 
 interface AppProvidersProps {
   children: ReactNode;

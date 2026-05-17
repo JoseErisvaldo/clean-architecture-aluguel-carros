@@ -1,4 +1,4 @@
-import { AuthStorage } from "../../../../shared/auth/infrastructure/storage/auth-storage";
+import { AuthStorage } from "../../../../shared/components/layout/auth/infrastructure/storage/auth-storage";
 
 export class GetUserFromStorage {
   execute() {

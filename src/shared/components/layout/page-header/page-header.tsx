@@ -1,11 +1,4 @@
-import {
-  Box,
-  Breadcrumbs,
-  Button,
-  Link,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Breadcrumbs, Link, Stack, Typography } from "@mui/material";
 
 type BreadcrumbItem = {
   title: string;
@@ -15,6 +8,7 @@ type BreadcrumbItem = {
 type PageHeaderProps = {
   title: string;
   subheader?: string;
+  children?: React.ReactNode;
   slotProps?: {
     breadcrumb?: {
       items: BreadcrumbItem[];
@@ -22,16 +16,16 @@ type PageHeaderProps = {
         navigate: (to: string) => void;
       };
     };
-    action?: {
-      label: string;
-      onClick: () => void;
-    };
   };
 };
 
-export function PageHeader({ title, subheader, slotProps }: PageHeaderProps) {
+export function PageHeader({
+  title,
+  subheader,
+  slotProps,
+  children,
+}: PageHeaderProps) {
   const breadcrumb = slotProps?.breadcrumb;
-  const action = slotProps?.action;
 
   return (
     <Box sx={{ mb: 3 }}>
@@ -40,24 +34,8 @@ export function PageHeader({ title, subheader, slotProps }: PageHeaderProps) {
         spacing={2}
         sx={{ minHeight: 40, alignItems: "center", mb: 1 }}
       >
-        {action && (
-          <Button
-            size="small"
-            variant="outlined"
-            onClick={action.onClick}
-            sx={{ whiteSpace: "nowrap" }}
-          >
-            {action.label}
-          </Button>
-        )}
-
         {breadcrumb?.items?.length ? (
-          <Breadcrumbs
-            sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
+          <Breadcrumbs sx={{ display: "flex", alignItems: "center" }}>
             {breadcrumb.items.map((item, index) => {
               const isLast = index === breadcrumb.items.length - 1;
               const canNavigate = Boolean(
@@ -66,11 +44,7 @@ export function PageHeader({ title, subheader, slotProps }: PageHeaderProps) {
 
               if (isLast && !canNavigate) {
                 return (
-                  <Typography
-                    key={item.segment}
-                    color="text.primary"
-                    sx={{ display: "flex", alignItems: "center" }}
-                  >
+                  <Typography key={item.segment} color="text.primary">
                     {item.title}
                   </Typography>
                 );
@@ -84,8 +58,6 @@ export function PageHeader({ title, subheader, slotProps }: PageHeaderProps) {
                   onClick={() => breadcrumb.router?.navigate(item.segment)}
                   sx={{
                     cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
                     fontWeight: isLast ? 500 : 400,
                   }}
                 >
@@ -104,12 +76,13 @@ export function PageHeader({ title, subheader, slotProps }: PageHeaderProps) {
       </Typography>
 
       {subheader && (
-        <Box sx={{ mt: 0.5 }}>
-          <Typography variant="body2" color="text.secondary">
-            {subheader}
-          </Typography>
-        </Box>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+          {subheader}
+        </Typography>
       )}
+      <Box sx={{ mt: 2, display: "flex", gap: 2, justifyContent: "flex-end" }}>
+        {children}
+      </Box>
     </Box>
   );
 }

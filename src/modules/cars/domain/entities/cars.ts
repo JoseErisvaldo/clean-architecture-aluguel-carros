@@ -8,3 +8,5 @@ export interface Cars {
   status: "available" | "unavailable" | string;
   created_at: string;
 }
+
+export type CreateCarDTO = Omit<Cars, "id" | "created_at">;

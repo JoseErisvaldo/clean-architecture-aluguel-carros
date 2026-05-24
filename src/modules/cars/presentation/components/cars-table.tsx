@@ -40,12 +40,6 @@ export function CarsDataGrid({ cars, loading, error, onRetry }: Props) {
         getRowId={(row) => row.id}
         disableRowSelectionOnClick
         loading={loading}
-        slotProps={{
-          loadingOverlay: {
-            variant: "skeleton",
-            noRowsVariant: "skeleton",
-          },
-        }}
         slots={{
           noRowsOverlay: () =>
             error ? (

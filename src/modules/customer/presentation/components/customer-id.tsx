@@ -7,8 +7,6 @@ export default function CustomerId() {
 
   const { Customer, loading, error } = useCustomerById(id ?? "");
 
-  console.log("CustomerId data:", { Customer, loading, error });
-
   return (
     <Box>
       <Paper elevation={2} sx={{ p: 3 }}>

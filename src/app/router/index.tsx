@@ -28,7 +28,8 @@ export function AppRouter() {
           }
         >
           <Route path="/" element={<CustomersPage />} />
-          <Route path="/Customers/:id" element={<CustomersIdPage />} />
+          <Route path="/customers" element={<CustomersPage />} />
+          <Route path="/customers/:id" element={<CustomersIdPage />} />
 
           <Route path="/cars" element={<CarsPage />} />
           <Route path="/cars/:id" element={<CarDetailsPage />} />

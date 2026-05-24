@@ -1,5 +1,5 @@
 import Img404 from "@/assets/image-people-404.svg";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 
 export default function NotFound() {
   return (
@@ -37,11 +37,9 @@ export default function NotFound() {
           A página que você está tentando acessar não existe ou foi movida.
         </Typography>
 
-        <Stack direction="row" spacing={2}>
-          <Button variant="contained">Voltar</Button>
-
+        <Box>
           <Button variant="text">Falar com suporte</Button>
-        </Stack>
+        </Box>
       </Box>
     </Container>
   );

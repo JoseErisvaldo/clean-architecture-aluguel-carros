@@ -60,8 +60,11 @@ export function PageHeader({ title, subheader, slotProps }: PageHeaderProps) {
           >
             {breadcrumb.items.map((item, index) => {
               const isLast = index === breadcrumb.items.length - 1;
+              const canNavigate = Boolean(
+                breadcrumb.router?.navigate && item.segment,
+              );
 
-              if (isLast) {
+              if (isLast && !canNavigate) {
                 return (
                   <Typography
                     key={item.segment}
@@ -77,12 +80,13 @@ export function PageHeader({ title, subheader, slotProps }: PageHeaderProps) {
                 <Link
                   key={item.segment}
                   underline="hover"
-                  color="inherit"
+                  color={isLast ? "text.primary" : "inherit"}
                   onClick={() => breadcrumb.router?.navigate(item.segment)}
                   sx={{
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
+                    fontWeight: isLast ? 500 : 400,
                   }}
                 >
                   {item.title}

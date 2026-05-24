@@ -5,11 +5,14 @@ import {
   List,
   ListItemButton,
   ListItemText,
-  Toolbar,
   Typography,
+  ListItemIcon,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { LogoutButton } from "./logout-button";
+
+import PeopleIcon from "@mui/icons-material/People";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 
 const DRAWER_WIDTH = 260;
 
@@ -20,13 +23,13 @@ interface PrivateSidebarProps {
 }
 
 const navigationItems = [
-  { label: "Clientes", to: "/" },
-  { label: "Carros", to: "/cars" },
+  { label: "Clientes", to: "/", icon: <PeopleIcon /> },
+  { label: "Carros", to: "/cars", icon: <DirectionsCarIcon /> },
 ];
 
 function isItemActive(pathname: string, to: string) {
   if (to === "/") {
-    return pathname === "/" || pathname.startsWith("/Customers");
+    return pathname === "/" || pathname.startsWith("/customers");
   }
   return pathname.startsWith(to);
 }
@@ -46,11 +49,23 @@ export function PrivateSidebar({
         flexDirection: "column",
       }}
     >
-      <Toolbar>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Painel
+      <Box
+        sx={{
+          p: 2,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Typography
+          variant="h6"
+          sx={{ fontWeight: "bold", color: "primary.main" }}
+        >
+          Gestor de Frotas
         </Typography>
-      </Toolbar>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+          Operações de aluguel de carros
+        </Typography>
+      </Box>
 
       <Divider />
 
@@ -69,11 +84,25 @@ export function PrivateSidebar({
                 borderRadius: 1,
                 mx: 1,
                 mb: 0.5,
+                gap: 1,
                 "&.Mui-selected": {
-                  backgroundColor: "action.selected",
+                  backgroundColor: "primary.main",
+                  color: "primary.contrastText",
+                },
+                "&.Mui-selected:hover": {
+                  backgroundColor: "primary.main",
                 },
               }}
             >
+              <ListItemIcon
+                sx={{
+                  color: active ? "inherit" : "text.secondary",
+                  minWidth: 36,
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+
               <ListItemText
                 primary={item.label}
                 slotProps={{

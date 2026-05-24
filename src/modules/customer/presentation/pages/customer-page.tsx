@@ -20,7 +20,10 @@ export function CustomersPage() {
         subheader="Gerencie os clientes cadastrados no sistema"
         slotProps={{
           breadcrumb: {
-            items: [{ title: "Clientes", segment: "/customers" }],
+            items: [
+              { title: "Inicio", segment: "/" },
+              { title: "Clientes", segment: "/customers" },
+            ],
             router: {
               navigate: (to) => navigate(to),
             },

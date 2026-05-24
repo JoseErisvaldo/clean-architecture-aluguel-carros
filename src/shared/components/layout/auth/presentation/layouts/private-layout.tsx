@@ -2,6 +2,7 @@ import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { DRAWER_WIDTH, PrivateSidebar } from "../components/private-sidebar";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 
 export function PrivateLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -14,13 +15,20 @@ export function PrivateLayout() {
   const toggleDesktop = () => setDesktopOpen((prev) => !prev);
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#f6f7fb" }}>
+    <Box
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+        bgcolor: "background.default",
+      }}
+    >
       <AppBar
         position="fixed"
         color="inherit"
         elevation={0}
         sx={{
-          borderBottom: "1px solid #e7e8ef",
+          borderBottom: "1px solid",
+          borderColor: "divider",
           width: { md: `calc(100% - ${desktopDrawerWidth}px)` },
           ml: { md: `${desktopDrawerWidth}px` },
           transition: "all 0.2s ease",
@@ -35,7 +43,11 @@ export function PrivateLayout() {
             sx={{ mr: 1, display: { xs: "none", md: "inline-flex" } }}
           >
             <Typography sx={{ fontSize: 18, fontWeight: 700 }}>
-              {desktopOpen ? "❮" : "❯"}
+              {desktopOpen ? (
+                <MenuOpenIcon />
+              ) : (
+                <MenuOpenIcon sx={{ transform: "rotate(180deg)" }} />
+              )}
             </Typography>
           </IconButton>
 
@@ -45,11 +57,14 @@ export function PrivateLayout() {
             aria-label="Abrir menu"
             sx={{ mr: 2, display: { md: "none" } }}
           >
-            <Typography sx={{ fontSize: 20, fontWeight: 700 }}>≡</Typography>
+            <MenuOpenIcon sx={{ transform: "rotate(180deg)" }} />
           </IconButton>
 
-          <Typography variant="h6" sx={{ fontWeight: 700 }}>
-            Aluguel de carros
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 700, color: "primary.main" }}
+          >
+            Painel de Controle
           </Typography>
         </Toolbar>
       </AppBar>

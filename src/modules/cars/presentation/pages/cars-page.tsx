@@ -17,7 +17,10 @@ export function CarsPage() {
         subheader="Gerencie os carros cadastrados no sistema"
         slotProps={{
           breadcrumb: {
-            items: [{ title: "Carros", segment: "/cars" }],
+            items: [
+              { title: "Inicio", segment: "/" },
+              { title: "Carros", segment: "/cars" },
+            ],
             router: {
               navigate: (to) => navigate(to),
             },

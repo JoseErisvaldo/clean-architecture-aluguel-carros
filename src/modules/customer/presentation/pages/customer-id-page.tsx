@@ -16,6 +16,7 @@ export default function CustomersIdPage() {
         slotProps={{
           breadcrumb: {
             items: [
+              { title: "Inicio", segment: "/" },
               { title: "Clientes", segment: "/customers" },
               {
                 title: "Detalhes",
@@ -25,10 +26,6 @@ export default function CustomersIdPage() {
             router: {
               navigate: (to) => navigate(to),
             },
-          },
-          action: {
-            label: "Voltar",
-            onClick: () => navigate(-1),
           },
         }}
       />

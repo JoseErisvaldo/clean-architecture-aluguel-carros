@@ -1,5 +1,5 @@
 import Img403 from "@/assets/image-people-403.svg";
-import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 
 export default function Forbidden() {
   return (
@@ -36,11 +36,9 @@ export default function Forbidden() {
           suporte.
         </Typography>
 
-        <Stack direction="row" spacing={2}>
-          <Button variant="contained">Voltar</Button>
-
+        <Box>
           <Button variant="text">Falar com suporte</Button>
-        </Stack>
+        </Box>
       </Box>
     </Container>
   );

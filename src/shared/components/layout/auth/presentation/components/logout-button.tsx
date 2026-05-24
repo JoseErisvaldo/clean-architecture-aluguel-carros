@@ -14,12 +14,19 @@ export function LogoutButton() {
   return (
     <Button
       fullWidth
-      variant="outlined"
       color="inherit"
       onClick={handleLogout}
       sx={{
         fontWeight: 600,
         textTransform: "none",
+        border: "1px solid",
+        borderColor: "primary.main",
+        "&:hover": {
+          backgroundColor: "primary.main",
+          color: "primary.contrastText",
+          borderColor: "primary.main",
+        },
+        cursor: "pointer",
       }}
     >
       Sair

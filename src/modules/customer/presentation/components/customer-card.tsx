@@ -35,26 +35,6 @@ export function CustomerDataGrid({ customers }: Props) {
         columns={columns}
         getRowId={(row) => row.id}
         disableRowSelectionOnClick
-        sx={{
-          height: "100%",
-          width: "100%",
-          minWidth: 0,
-          "& .MuiDataGrid-main": {
-            overflow: "hidden",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            minWidth: "max-content",
-          },
-          "& .MuiDataGrid-virtualScrollerContent": {
-            minWidth: "max-content",
-          },
-          "& .MuiDataGrid-footerContainer": {
-            minWidth: "max-content",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            overflow: "auto !important",
-          },
-        }}
       />
     </Box>
   );

@@ -19,7 +19,10 @@ interface PrivateSidebarProps {
   desktopOpen: boolean;
 }
 
-const navigationItems = [{ label: "Clientes", to: "/" }];
+const navigationItems = [
+  { label: "Clientes", to: "/" },
+  { label: "Carros", to: "/cars" },
+];
 
 function isItemActive(pathname: string, to: string) {
   if (to === "/") {

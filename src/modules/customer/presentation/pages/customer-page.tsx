@@ -5,8 +5,6 @@ import { PageHeader } from "../../../../shared/components/layout/page-header/pag
 import { CustomerDataGrid } from "../components/customer-card";
 import { useCustomers } from "../hooks/use-customer";
 
-import { Alert, Box, CircularProgress, Typography } from "@mui/material";
-
 export function CustomersPage() {
   const navigate = useNavigate();
 
@@ -31,24 +29,12 @@ export function CustomersPage() {
         }}
       />
 
-      {loading && (
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <CircularProgress size={20} />
-          <Typography>Carregando clientes...</Typography>
-        </Box>
-      )}
-
-      {error && (
-        <Alert severity="error" sx={{ mt: 2 }}>
-          {error}
-        </Alert>
-      )}
-
-      {!loading && !error && (
-        <Box sx={{ mt: 2, width: "100%", minWidth: 0 }}>
-          <CustomerDataGrid customers={customersList} />
-        </Box>
-      )}
+      <CustomerDataGrid
+        customers={customersList}
+        loading={loading}
+        error={error}
+        onRetry={() => {}}
+      />
     </ContainerLayout>
   );
 }

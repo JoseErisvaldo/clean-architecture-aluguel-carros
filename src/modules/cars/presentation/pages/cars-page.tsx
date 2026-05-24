@@ -29,14 +29,12 @@ export function CarsPage() {
       />
       {}
 
-      <Box sx={{ mt: 2, width: "100%", minWidth: 0 }}>
-        <CarsDataGrid
-          cars={Cars}
-          loading={loading}
-          error={error}
-          onRetry={fetchCars}
-        />
-      </Box>
+      <CarsDataGrid
+        cars={Cars}
+        loading={loading}
+        error={error}
+        onRetry={fetchCars}
+      />
     </ContainerLayout>
   );
 }

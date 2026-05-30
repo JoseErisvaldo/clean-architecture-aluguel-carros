@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CarsRepositoryApi } from "../../infrastructure/repositories/cars-repositories-api";
 import { CreateCar, GetCars } from "../../application/use-cases/get-customer";
 import type { Cars, CreateCarDTO } from "../../domain/entities/cars";
-import { handleApiError } from "../../../../shared/errors/handle-api-error";
+import { handleApiError } from "../../../../shared/utils/errors/handle-api-error";
 
 export function useCars() {
   const [Cars, setCars] = useState<Cars[]>([]);

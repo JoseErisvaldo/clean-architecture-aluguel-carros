@@ -8,35 +8,40 @@ import {
 } from "@mui/material";
 import DrawerRight from "../../../../../shared/components/ui/drawer-right/drawer-right";
 import type { CreateCarDTO } from "../../../domain/entities/cars";
-import type { FilterModels } from "../../../../../shared/cross-features/filter-models/domain/entities/filter-models";
+import { useCreateCar } from "../../hooks/use-cars";
+import { useFilterModels } from "../../hooks/use-filter-models";
+import { useFilterBrandsQueries } from "../../queries/use-filter-brands-queries";
 
 type DrawerNewCarProps = {
   openDrawer: boolean;
   handleCloseDrawer: () => void;
   title: string;
-  createCar: (data: CreateCarDTO) => void;
-  loading?: boolean;
-  error?: string | null;
-  success?: boolean;
   onSuccess?: () => void;
-  filterModels: FilterModels[];
-  filterModelsLoading: boolean;
-  filterModelsError: string | null;
 };
 
 export default function DrawerNewCar({
   openDrawer,
   handleCloseDrawer,
   title,
-  createCar,
-  loading,
-  error,
-  success,
   onSuccess,
-  filterModels,
-  filterModelsLoading,
-  filterModelsError,
 }: DrawerNewCarProps) {
+  const {
+    createCar,
+    loading: createCarLoading,
+    error: createCarError,
+    success: createCarSuccess,
+  } = useCreateCar();
+  const {
+    filterModels,
+    loading: filterModelsLoading,
+    error: filterModelsError,
+  } = useFilterModels();
+  const {
+    filterBrands,
+    loading: filterBrandsLoading,
+    error: filterBrandsError,
+  } = useFilterBrandsQueries();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -61,9 +66,9 @@ export default function DrawerNewCar({
       openDrawer={openDrawer}
       handleCloseDrawer={handleCloseDrawer}
       onSubmit={handleSubmit}
-      loading={loading}
-      error={error}
-      success={success}
+      loading={createCarLoading}
+      error={createCarError}
+      success={createCarSuccess}
     >
       <Box display="flex" flexDirection="column" gap={2}>
         <FormControl fullWidth>
@@ -74,9 +79,25 @@ export default function DrawerNewCar({
             label="Marca"
             defaultValue=""
           >
-            <MenuItem value="toyota">Toyota</MenuItem>
-            <MenuItem value="honda">Honda</MenuItem>
-            <MenuItem value="vw">Volkswagen</MenuItem>
+            {filterBrands.length > 0 ? (
+              filterBrands.map((brand) => (
+                <MenuItem key={brand.id} value={brand.name}>
+                  {brand.name}
+                </MenuItem>
+              ))
+            ) : filterBrandsLoading ? (
+              <MenuItem value="" disabled>
+                Carregando marcas...
+              </MenuItem>
+            ) : filterBrandsError ? (
+              <MenuItem value="" disabled>
+                Erro ao carregar marcas
+              </MenuItem>
+            ) : (
+              <MenuItem value="" disabled>
+                Nenhuma marca disponível
+              </MenuItem>
+            )}
           </Select>
         </FormControl>
 

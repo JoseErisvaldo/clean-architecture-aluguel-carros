@@ -1,33 +1,24 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import ContainerLayout from "../../../../shared/components/layout/container/contaier.view";
 import { PageHeader } from "../../../../shared/components/layout/page-header/page-header";
 import { CarsDataGrid } from "../components/cars-table";
-import { useCars, useCreateCar } from "../hooks/use-cars";
+import { useCars } from "../hooks/use-cars";
 import { Button } from "@mui/material";
 import DrawerNewCar from "../components/drawer-new-car/drawer-new-car";
-import { useFilterModels } from "../hooks/use-filter-models";
 
 export function CarsPage() {
   const navigate = useNavigate();
   const { Cars, loading, error, fetchCars } = useCars();
-  const {
-    createCar,
-    loading: createCarLoading,
-    error: createCarError,
-    success: createCarSuccess,
-  } = useCreateCar();
-  const {
-    filterModels,
-    loading: filterModelsLoading,
-    error: filterModelsError,
-  } = useFilterModels();
 
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const handleOpenDrawer = () => setOpenDrawer(true);
   const handleCloseDrawer = () => setOpenDrawer(false);
+  const handleCreateCarSuccess = useCallback(() => {
+    fetchCars();
+  }, [fetchCars]);
 
   return (
     <ContainerLayout>
@@ -53,24 +44,15 @@ export function CarsPage() {
 
       <CarsDataGrid
         cars={Cars}
-        loading={loading || createCarLoading}
+        loading={loading}
         error={error}
         onRetry={fetchCars}
       />
       <DrawerNewCar
-        filterModels={filterModels}
-        filterModelsLoading={filterModelsLoading}
-        filterModelsError={filterModelsError}
         openDrawer={openDrawer}
         handleCloseDrawer={handleCloseDrawer}
         title="Novo Carro"
-        createCar={createCar}
-        loading={createCarLoading}
-        error={createCarError}
-        success={createCarSuccess}
-        onSuccess={() => {
-          fetchCars();
-        }}
+        onSuccess={handleCreateCarSuccess}
       />
     </ContainerLayout>
   );

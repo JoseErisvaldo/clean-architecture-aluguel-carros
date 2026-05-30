@@ -49,15 +49,13 @@ export default function CarDetails() {
     <Box
       sx={{
         display: "flex",
-        p: 3,
-        background: "#f5f7fb",
       }}
     >
       <Card
         sx={{
           width: "100%",
-          borderRadius: 4,
-          boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+          border: "10px solid grey.500",
+          borderRadius: 2,
         }}
       >
         <CardContent sx={{ p: 4 }}>

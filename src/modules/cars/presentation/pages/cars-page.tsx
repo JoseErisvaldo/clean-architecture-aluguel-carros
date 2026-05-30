@@ -7,6 +7,7 @@ import { CarsDataGrid } from "../components/cars-table";
 import { useCars, useCreateCar } from "../hooks/use-cars";
 import { Button } from "@mui/material";
 import DrawerNewCar from "../components/drawer-new-car/drawer-new-car";
+import { useFilterModels } from "../hooks/use-filter-models";
 
 export function CarsPage() {
   const navigate = useNavigate();
@@ -17,6 +18,11 @@ export function CarsPage() {
     error: createCarError,
     success: createCarSuccess,
   } = useCreateCar();
+  const {
+    filterModels,
+    loading: filterModelsLoading,
+    error: filterModelsError,
+  } = useFilterModels();
 
   const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -52,6 +58,9 @@ export function CarsPage() {
         onRetry={fetchCars}
       />
       <DrawerNewCar
+        filterModels={filterModels}
+        filterModelsLoading={filterModelsLoading}
+        filterModelsError={filterModelsError}
         openDrawer={openDrawer}
         handleCloseDrawer={handleCloseDrawer}
         title="Novo Carro"

@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import DrawerRight from "../../../../../shared/components/ui/drawer-right/drawer-right";
 import type { CreateCarDTO } from "../../../domain/entities/cars";
+import type { FilterModels } from "../../../../../shared/cross-features/filter-models/domain/entities/filter-models";
 
 type DrawerNewCarProps = {
   openDrawer: boolean;
@@ -18,6 +19,9 @@ type DrawerNewCarProps = {
   error?: string | null;
   success?: boolean;
   onSuccess?: () => void;
+  filterModels: FilterModels[];
+  filterModelsLoading: boolean;
+  filterModelsError: string | null;
 };
 
 export default function DrawerNewCar({
@@ -29,6 +33,9 @@ export default function DrawerNewCar({
   error,
   success,
   onSuccess,
+  filterModels,
+  filterModelsLoading,
+  filterModelsError,
 }: DrawerNewCarProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,9 +88,25 @@ export default function DrawerNewCar({
             label="Modelo"
             defaultValue=""
           >
-            <MenuItem value="corolla">Corolla</MenuItem>
-            <MenuItem value="civic">Civic</MenuItem>
-            <MenuItem value="gol">Gol</MenuItem>
+            {filterModels.length > 0 ? (
+              filterModels.map((model) => (
+                <MenuItem key={model.id} value={model.id}>
+                  {model.name}
+                </MenuItem>
+              ))
+            ) : filterModelsLoading ? (
+              <MenuItem value="" disabled>
+                Carregando modelos...
+              </MenuItem>
+            ) : filterModelsError ? (
+              <MenuItem value="" disabled>
+                Erro ao carregar modelos
+              </MenuItem>
+            ) : (
+              <MenuItem value="" disabled>
+                Nenhum modelo disponível
+              </MenuItem>
+            )}
           </Select>
         </FormControl>
 

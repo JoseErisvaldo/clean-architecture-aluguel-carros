@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CarsRepositoryApi } from "../../infrastructure/repositories/cars-repositories-api";
 import { CreateCar, GetCars } from "../../application/use-cases/get-customer";
 import type { Cars, CreateCarDTO } from "../../domain/entities/cars";

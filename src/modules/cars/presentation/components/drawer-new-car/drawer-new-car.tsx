@@ -7,8 +7,9 @@ import {
   InputLabel,
 } from "@mui/material";
 import DrawerRight from "../../../../../shared/components/ui/drawer-right/drawer-right";
+import { handleApiError } from "../../../../../shared/utils/errors/handle-api-error";
 import type { CreateCarDTO } from "../../../domain/entities/cars";
-import { useCreateCar } from "../../hooks/use-cars";
+import { useCreateCar } from "../../mutation/use-create-car-mutation";
 import { useFilterModels } from "../../hooks/use-filter-models";
 import { useFilterBrandsQueries } from "../../queries/use-filter-brands-queries";
 
@@ -26,10 +27,10 @@ export default function DrawerNewCar({
   onSuccess,
 }: DrawerNewCarProps) {
   const {
-    createCar,
-    loading: createCarLoading,
+    mutate: createCar,
+    isPending: createCarLoading,
     error: createCarError,
-    success: createCarSuccess,
+    isSuccess: createCarSuccess,
   } = useCreateCar();
   const {
     filterModels,
@@ -37,10 +38,14 @@ export default function DrawerNewCar({
     error: filterModelsError,
   } = useFilterModels();
   const {
-    filterBrands,
-    loading: filterBrandsLoading,
+    data: filterBrands,
+    isLoading: filterBrandsLoading,
     error: filterBrandsError,
   } = useFilterBrandsQueries();
+
+  const createCarErrorMessage = createCarError
+    ? handleApiError(createCarError).message
+    : null;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -56,8 +61,11 @@ export default function DrawerNewCar({
       daily_price: Number(data.get("daily_price")),
       status: data.get("status"),
     };
-    createCar(payload as CreateCarDTO);
-    onSuccess?.();
+    createCar(payload as CreateCarDTO, {
+      onSuccess: () => {
+        onSuccess?.();
+      },
+    });
   };
 
   return (
@@ -67,7 +75,7 @@ export default function DrawerNewCar({
       handleCloseDrawer={handleCloseDrawer}
       onSubmit={handleSubmit}
       loading={createCarLoading}
-      error={createCarError}
+      error={createCarErrorMessage}
       success={createCarSuccess}
     >
       <Box display="flex" flexDirection="column" gap={2}>
@@ -79,7 +87,7 @@ export default function DrawerNewCar({
             label="Marca"
             defaultValue=""
           >
-            {filterBrands.length > 0 ? (
+            {filterBrands && filterBrands.length > 0 ? (
               filterBrands.map((brand) => (
                 <MenuItem key={brand.id} value={brand.name}>
                   {brand.name}
@@ -109,7 +117,7 @@ export default function DrawerNewCar({
             label="Modelo"
             defaultValue=""
           >
-            {filterModels.length > 0 ? (
+            {filterModels && filterModels.length > 0 ? (
               filterModels.map((model) => (
                 <MenuItem key={model.id} value={model.id}>
                   {model.name}

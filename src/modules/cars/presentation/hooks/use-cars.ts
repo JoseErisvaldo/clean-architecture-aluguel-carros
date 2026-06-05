@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { CarsRepositoryApi } from "../../infrastructure/repositories/cars-repositories-api";
-import { CreateCar, GetCars } from "../../application/use-cases/get-customer";
-import type { Cars, CreateCarDTO } from "../../domain/entities/cars";
-import { handleApiError } from "../../../../shared/utils/errors/handle-api-error";
+import { GetCars } from "../../application/use-cases/get-customer";
+import type { Cars } from "../../domain/entities/cars";
 
 export function useCars() {
   const [Cars, setCars] = useState<Cars[]>([]);
@@ -10,10 +9,9 @@ export function useCars() {
   const [error, setError] = useState<string | null>(null);
   const [isRetrying, setIsRetrying] = useState(false);
 
-  const repo = new CarsRepositoryApi();
-  const useCase = new GetCars(repo);
-
   const fetchCars = async () => {
+    const useCase = new GetCars(new CarsRepositoryApi());
+
     try {
       setError(null);
       setIsRetrying(true);
@@ -33,6 +31,7 @@ export function useCars() {
 
   useEffect(() => {
     let isMounted = true;
+    const useCase = new GetCars(new CarsRepositoryApi());
 
     const load = async () => {
       if (isMounted) {
@@ -119,41 +118,5 @@ export function useCarById(id: string) {
     loading: hasValidId ? loading : false,
     error,
     isRetrying,
-  };
-}
-
-export function useCreateCar() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-
-  const repo = new CarsRepositoryApi();
-  const useCase = new CreateCar(repo);
-
-  const createCar = async (data: CreateCarDTO) => {
-    try {
-      setError(null);
-      setLoading(true);
-      setSuccess(false);
-
-      await useCase.execute(data);
-      setSuccess(true);
-    } catch (err) {
-      const { message } = handleApiError(err);
-      setError(message);
-    } finally {
-      setLoading(false);
-      setTimeout(() => {
-        setSuccess(false);
-        setError(null);
-      }, 3000);
-    }
-  };
-
-  return {
-    createCar,
-    loading,
-    error,
-    success,
   };
 }

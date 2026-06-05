@@ -8,18 +8,9 @@ const repository = new FilterBrandsRepositories();
 const useCase = new GetFilterBrands(repository);
 
 export function useFilterBrandsQueries() {
-  const query = useQuery<FilterBrands[]>({
+  return useQuery<FilterBrands[]>({
     queryKey: filterBrandsQueryKey,
     queryFn: ({ signal }) => useCase.execute(signal),
     staleTime: 5 * 60 * 1000,
   });
-
-  return {
-    filterBrands: query.data ?? [],
-    loading: query.isLoading,
-    error: query.error
-      ? "Nao foi possivel carregar as marcas. Tente novamente em alguns instantes."
-      : null,
-    refetch: query.refetch,
-  };
 }

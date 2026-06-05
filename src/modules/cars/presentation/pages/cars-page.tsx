@@ -48,7 +48,6 @@ export function CarsPage() {
         openDrawer={openDrawer}
         handleCloseDrawer={handleCloseDrawer}
         title="Novo Carro"
-        onSuccess={refetch}
       />
     </ContainerLayout>
   );

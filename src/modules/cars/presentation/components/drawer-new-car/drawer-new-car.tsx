@@ -5,180 +5,156 @@ import {
   TextField,
   FormControl,
   InputLabel,
+  FormHelperText,
 } from "@mui/material";
-import DrawerRight from "../../../../../shared/components/ui/drawer-right/drawer-right";
-import { handleApiError } from "../../../../../shared/utils/errors/handle-api-error";
-import type { CreateCarDTO } from "../../../domain/entities/cars";
-import { useCreateCar } from "../../mutation/use-create-car-mutation";
-import { useFilterModels } from "../../hooks/use-filter-models";
-import { useFilterBrandsQueries } from "../../queries/use-filter-brands-queries";
 
-type DrawerNewCarProps = {
-  openDrawer: boolean;
-  handleCloseDrawer: () => void;
-  title: string;
-  onSuccess?: () => void;
-};
+import DrawerRight from "../../../../../shared/components/ui/drawer-right/drawer-right";
+import { useFilterBrandsQueries } from "../../queries/use-filter-brands-queries";
+import { useFilterModelsQuery } from "../../queries/use-filter-models.queies";
+import { Controller } from "react-hook-form";
+
+import { useCreateNewCar } from "../../hooks/use-create-new-car";
 
 export default function DrawerNewCar({
   openDrawer,
   handleCloseDrawer,
   title,
-  onSuccess,
-}: DrawerNewCarProps) {
+}: {
+  openDrawer: boolean;
+  handleCloseDrawer: () => void;
+  title: string;
+}) {
   const {
-    mutate: createCar,
-    isPending: createCarLoading,
-    error: createCarError,
-    isSuccess: createCarSuccess,
-  } = useCreateCar();
-  const {
-    filterModels,
-    loading: filterModelsLoading,
+    data: filterModels,
+    isLoading: filterModelsLoading,
     error: filterModelsError,
-  } = useFilterModels();
+  } = useFilterModelsQuery();
+
   const {
     data: filterBrands,
     isLoading: filterBrandsLoading,
     error: filterBrandsError,
   } = useFilterBrandsQueries();
 
-  const createCarErrorMessage = createCarError
-    ? handleApiError(createCarError).message
-    : null;
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const data = new FormData(e.currentTarget);
-
-    const payload = {
-      brand: data.get("brand"),
-      model: data.get("model"),
-      color: data.get("color"),
-      year: Number(data.get("year")),
-      plate: data.get("plate"),
-      daily_price: Number(data.get("daily_price")),
-      status: data.get("status"),
-    };
-    createCar(payload as CreateCarDTO, {
-      onSuccess: () => {
-        onSuccess?.();
-      },
-    });
-  };
+  const {
+    register,
+    handleSubmit,
+    onSubmit,
+    control,
+    errors,
+    isPending,
+    errorDtails,
+    isSuccess,
+  } = useCreateNewCar({
+    handleCloseDrawer,
+  });
 
   return (
     <DrawerRight
       title={title}
       openDrawer={openDrawer}
       handleCloseDrawer={handleCloseDrawer}
-      onSubmit={handleSubmit}
-      loading={createCarLoading}
-      error={createCarErrorMessage}
-      success={createCarSuccess}
+      onSubmit={handleSubmit(onSubmit)}
+      loading={isPending}
+      error={errorDtails ? errorDtails.message : null}
+      success={isSuccess}
     >
       <Box display="flex" flexDirection="column" gap={2}>
-        <FormControl fullWidth>
-          <InputLabel id="brand-label">Marca</InputLabel>
-          <Select
-            name="brand"
-            labelId="brand-label"
-            label="Marca"
-            defaultValue=""
-          >
-            {filterBrands && filterBrands.length > 0 ? (
-              filterBrands.map((brand) => (
-                <MenuItem key={brand.id} value={brand.name}>
-                  {brand.name}
-                </MenuItem>
-              ))
-            ) : filterBrandsLoading ? (
-              <MenuItem value="" disabled>
-                Carregando marcas...
-              </MenuItem>
-            ) : filterBrandsError ? (
-              <MenuItem value="" disabled>
-                Erro ao carregar marcas
-              </MenuItem>
-            ) : (
-              <MenuItem value="" disabled>
-                Nenhuma marca disponível
-              </MenuItem>
-            )}
-          </Select>
-        </FormControl>
+        <Controller
+          name="brand"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <FormControl fullWidth error={!!errors.brand}>
+              <InputLabel>Marca</InputLabel>
+              <Select {...field} label="Marca">
+                {filterBrands?.length ? (
+                  filterBrands.map((brand) => (
+                    <MenuItem key={brand.id} value={brand.name}>
+                      {brand.name}
+                    </MenuItem>
+                  ))
+                ) : filterBrandsLoading ? (
+                  <MenuItem disabled>Carregando marcas...</MenuItem>
+                ) : filterBrandsError ? (
+                  <MenuItem disabled>Erro ao carregar marcas</MenuItem>
+                ) : (
+                  <MenuItem disabled>Nenhuma marca disponível</MenuItem>
+                )}
+              </Select>
+              <FormHelperText>{errors.brand?.message}</FormHelperText>
+            </FormControl>
+          )}
+        />
 
-        <FormControl fullWidth>
-          <InputLabel id="model-label">Modelo</InputLabel>
-          <Select
-            name="model"
-            labelId="model-label"
-            label="Modelo"
-            defaultValue=""
-          >
-            {filterModels && filterModels.length > 0 ? (
-              filterModels.map((model) => (
-                <MenuItem key={model.id} value={model.id}>
-                  {model.name}
-                </MenuItem>
-              ))
-            ) : filterModelsLoading ? (
-              <MenuItem value="" disabled>
-                Carregando modelos...
-              </MenuItem>
-            ) : filterModelsError ? (
-              <MenuItem value="" disabled>
-                Erro ao carregar modelos
-              </MenuItem>
-            ) : (
-              <MenuItem value="" disabled>
-                Nenhum modelo disponível
-              </MenuItem>
-            )}
-          </Select>
-        </FormControl>
+        <Controller
+          name="model"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <FormControl fullWidth error={!!errors.model}>
+              <InputLabel>Modelo</InputLabel>
+              <Select {...field} label="Modelo">
+                {filterModels?.length ? (
+                  filterModels.map((model) => (
+                    <MenuItem key={model.id} value={model.name}>
+                      {model.name}
+                    </MenuItem>
+                  ))
+                ) : filterModelsLoading ? (
+                  <MenuItem disabled>Carregando modelos...</MenuItem>
+                ) : filterModelsError ? (
+                  <MenuItem disabled>Erro ao carregar modelos</MenuItem>
+                ) : (
+                  <MenuItem disabled>Nenhum modelo disponível</MenuItem>
+                )}
+              </Select>
+              <FormHelperText>{errors.model?.message}</FormHelperText>
+            </FormControl>
+          )}
+        />
 
-        <FormControl fullWidth>
-          <InputLabel id="color-label">Cor</InputLabel>
-          <Select
-            name="color"
-            labelId="color-label"
-            label="Cor"
-            defaultValue=""
-          >
-            <MenuItem value="Preto">Preto</MenuItem>
-            <MenuItem value="Branco">Branco</MenuItem>
-            <MenuItem value="Prata">Prata</MenuItem>
-            <MenuItem value="Cinza">Cinza</MenuItem>
-            <MenuItem value="Vermelho">Vermelho</MenuItem>
-            <MenuItem value="Azul">Azul</MenuItem>
-            <MenuItem value="Verde">Verde</MenuItem>
-          </Select>
-        </FormControl>
+        <TextField
+          fullWidth
+          label="Ano"
+          type="number"
+          {...register("year")}
+          error={!!errors.year}
+          helperText={errors.year?.message}
+        />
 
-        <TextField fullWidth label="Ano" name="year" type="number" />
-        <TextField fullWidth label="Placa" name="plate" />
+        <TextField
+          fullWidth
+          label="Placa"
+          {...register("plate")}
+          error={!!errors.plate}
+          helperText={errors.plate?.message}
+        />
+
         <TextField
           fullWidth
           label="Preço diário"
-          name="daily_price"
           type="number"
+          {...register("daily_price")}
+          error={!!errors.daily_price}
+          helperText={errors.daily_price?.message}
         />
 
-        <FormControl fullWidth>
-          <InputLabel id="status-label">Status</InputLabel>
-          <Select
-            name="status"
-            labelId="status-label"
-            label="Status"
-            defaultValue="available"
-          >
-            <MenuItem value="available">Disponível</MenuItem>
-            <MenuItem value="rented">Alugado</MenuItem>
-            <MenuItem value="maintenance">Manutenção</MenuItem>
-          </Select>
-        </FormControl>
+        <Controller
+          name="status"
+          control={control}
+          defaultValue="available"
+          render={({ field }) => (
+            <FormControl fullWidth error={!!errors.status}>
+              <InputLabel>Status</InputLabel>
+              <Select {...field} label="Status">
+                <MenuItem value="available">Disponível</MenuItem>
+                <MenuItem value="unavailable">Indisponível</MenuItem>
+              </Select>
+              <FormHelperText>{errors.status?.message}</FormHelperText>
+            </FormControl>
+          )}
+        />
       </Box>
     </DrawerRight>
   );

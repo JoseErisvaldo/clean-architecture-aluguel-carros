@@ -1,4 +1,4 @@
-// Este codido vai ficar a fins de exemplo de como usar o useCars e useCarById
+// Este codigo vai ficar a fins de exemplo de como usar o useCars e useCarById manuamente, porem, estamos usando TanStack
 
 import { useEffect, useState } from "react";
 import { CarsRepositoryApi } from "../../infrastructure/repositories/cars-repositories-api";

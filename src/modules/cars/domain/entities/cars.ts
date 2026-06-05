@@ -1,12 +1,6 @@
-export interface Cars {
-  id: string;
-  brand: string;
-  model: string;
-  plate: string;
-  year: number;
-  daily_price: number;
-  status: "available" | "unavailable" | string;
-  created_at: string;
-}
+import type z from "zod";
+import type { CarsSchema, CreateCarSchema } from "../schema/cars.schema";
 
-export type CreateCarDTO = Omit<Cars, "id" | "created_at">;
+export type Cars = z.infer<typeof CarsSchema>;
+export type CreateCarForm = z.input<typeof CreateCarSchema>;
+export type CreateCarDTO = z.output<typeof CreateCarSchema>;

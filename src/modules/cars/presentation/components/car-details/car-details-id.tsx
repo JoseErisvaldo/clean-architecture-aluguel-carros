@@ -8,9 +8,9 @@ import {
   Divider,
   Alert,
 } from "@mui/material";
-import { useCarById } from "../../hooks/use-cars";
 import CarDetailsSkeleton from "./car-details-skeleton";
 import { formatDateHour } from "../../../../../shared/helper/date/format-date-hour";
+import { useCarByIdQuery } from "../../queries/use-car-by-id";
 
 function Info({ label, value }: { label: string; value: string | number }) {
   return (
@@ -33,7 +33,7 @@ function Info({ label, value }: { label: string; value: string | number }) {
 export default function CarDetails() {
   const { id } = useParams<{ id: string }>();
 
-  const { Car, loading } = useCarById(id ?? "");
+  const { data: Car, isPending: loading } = useCarByIdQuery(id ?? "");
 
   if (loading) {
     return <CarDetailsSkeleton />;

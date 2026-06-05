@@ -1,3 +1,5 @@
+// Este codigo vai ficar a fins de exemplo de como usar o useCustomers e useCustomerById manuamente, porem, estamos usando TanStack
+
 import { useEffect, useState } from "react";
 import { CustomerRepositoryApi } from "../../infrastructure/repositories/customer-repository-api";
 import { GetCustomers } from "../../application/use-cases/get-customer";

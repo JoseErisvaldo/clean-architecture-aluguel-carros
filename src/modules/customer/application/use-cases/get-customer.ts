@@ -13,7 +13,7 @@ export class GetCustomers {
     return this.repository.getAll();
   }
 
-  async executeById(id: string) {
-    return this.repository.getById(id);
+  async executeById(id: string, signal?: AbortSignal) {
+    return this.repository.getById(id, signal);
   }
 }

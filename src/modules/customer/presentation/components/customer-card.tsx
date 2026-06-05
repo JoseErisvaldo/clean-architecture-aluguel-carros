@@ -10,7 +10,7 @@ import { DataGridErrorOverlay } from "../../../../shared/components/ui/data-grid
 type Props = {
   customers: Customer[];
   loading: boolean;
-  error?: string | null;
+  error?: boolean | null;
   onRetry?: () => void;
 };
 
@@ -54,7 +54,10 @@ export function CustomerDataGrid({
         slots={{
           noRowsOverlay: () =>
             error ? (
-              <DataGridErrorOverlay message={error} onRetry={onRetry} />
+              <DataGridErrorOverlay
+                message="Erro ao carregar clientes"
+                onRetry={onRetry}
+              />
             ) : (
               <Box
                 sx={{

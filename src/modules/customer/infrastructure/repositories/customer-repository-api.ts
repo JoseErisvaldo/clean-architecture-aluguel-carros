@@ -8,13 +8,8 @@ export class CustomerRepositoryApi implements CustomerRepository {
     return data.data;
   }
 
-  async getById(id: string): Promise<Customer> {
-    const data = await CustomersApi.getById(id);
-
-    if (Array.isArray(data.data) && data.data.length > 0) {
-      return data.data[0] as Customer;
-    }
-
-    throw new Error("Customer not found");
+  async getById(id: string, signal?: AbortSignal): Promise<Customer> {
+    const data = await CustomersApi.getById(id, { signal });
+    return data.data[0] as Customer;
   }
 }

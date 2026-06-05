@@ -1,44 +1,46 @@
 import { useParams } from "react-router";
-import { useCustomerById } from "../hooks/use-customer";
 import { Box, CircularProgress, Paper, Typography } from "@mui/material";
+import { useCustomerByIdQuery } from "../queries/use-customer-by-id";
 
 export default function CustomerId() {
   const { id } = useParams<{ id: string }>();
 
-  const { Customer, loading, error } = useCustomerById(id ?? "");
+  const { data, isLoading, isError } = useCustomerByIdQuery(id ?? "");
 
   return (
     <Box>
       <Paper elevation={2} sx={{ p: 3 }}>
-        {loading && (
+        {isLoading && (
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <CircularProgress size={20} />
             <Typography>Carregando cliente...</Typography>
           </Box>
         )}
 
-        {error && <Typography color="error">{error}</Typography>}
+        {isError && (
+          <Typography color="error">Erro ao carregar cliente</Typography>
+        )}
 
-        {Customer && !loading && !error && (
+        {data && !isLoading && !isError && (
           <Box sx={{ mt: 2 }}>
             <Typography variant="body1">
-              <strong>Nome:</strong> {Customer.name}
+              <strong>Nome:</strong> {data.name}
             </Typography>
 
             <Typography variant="body1">
-              <strong>Email:</strong> {Customer.email}
+              <strong>Email:</strong> {data.email}
             </Typography>
 
             <Typography variant="body1">
-              <strong>Telefone:</strong> {Customer.phone}
+              <strong>Telefone:</strong> {data.phone}
             </Typography>
 
             <Typography variant="body1">
-              <strong>Documento:</strong> {Customer.document}
+              <strong>Documento:</strong> {data.document}
             </Typography>
 
             <Typography variant="body2" color="text.secondary">
-              Criado em: {new Date(Customer.created_at).toLocaleString()}
+              Criado em: {new Date(data.created_at).toLocaleString()}
             </Typography>
           </Box>
         )}

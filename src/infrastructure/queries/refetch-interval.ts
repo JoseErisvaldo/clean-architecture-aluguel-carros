@@ -1,0 +1,7 @@
+export const refetchInterval = {
+  FIVE_SECONDS: 1000 * 5,
+  TEN_SECONDS: 1000 * 10,
+  TWENTY_SECONDS: 1000 * 20,
+  THIRTY_SECONDS: 1000 * 30,
+  ONE_MINUTE: 1000 * 60,
+};

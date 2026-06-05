@@ -1,0 +1,7 @@
+export const cacheTime = {
+  THIRTY_SECONDS: 1000 * 30,
+  ONE_MINUTE: 1000 * 60,
+  FIVE_MINUTES: 1000 * 60 * 5,
+  TEN_MINUTES: 1000 * 60 * 10,
+  THIRTY_MINUTES: 1000 * 60 * 30,
+};

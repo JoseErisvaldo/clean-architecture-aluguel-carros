@@ -1,24 +1,20 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import ContainerLayout from "../../../../shared/components/layout/container/contaier.view";
 import { PageHeader } from "../../../../shared/components/layout/page-header/page-header";
 import { CarsDataGrid } from "../components/cars-table";
-import { useCars } from "../hooks/use-cars";
 import { Button } from "@mui/material";
 import DrawerNewCar from "../components/drawer-new-car/drawer-new-car";
+import useCarsQueries from "../queries/use-cars";
 
 export function CarsPage() {
   const navigate = useNavigate();
-  const { Cars, loading, error, fetchCars } = useCars();
-
+  const { data: cars, isLoading, isError, refetch } = useCarsQueries();
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const handleOpenDrawer = () => setOpenDrawer(true);
   const handleCloseDrawer = () => setOpenDrawer(false);
-  const handleCreateCarSuccess = useCallback(() => {
-    fetchCars();
-  }, [fetchCars]);
 
   return (
     <ContainerLayout>
@@ -43,16 +39,16 @@ export function CarsPage() {
       </PageHeader>
 
       <CarsDataGrid
-        cars={Cars}
-        loading={loading}
-        error={error}
-        onRetry={fetchCars}
+        cars={cars}
+        loading={isLoading}
+        error={isError}
+        onRetry={refetch}
       />
       <DrawerNewCar
         openDrawer={openDrawer}
         handleCloseDrawer={handleCloseDrawer}
         title="Novo Carro"
-        onSuccess={handleCreateCarSuccess}
+        onSuccess={refetch}
       />
     </ContainerLayout>
   );

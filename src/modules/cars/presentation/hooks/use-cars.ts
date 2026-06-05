@@ -1,3 +1,5 @@
+// Este codido vai ficar a fins de exemplo de como usar o useCars e useCarById
+
 import { useEffect, useState } from "react";
 import { CarsRepositoryApi } from "../../infrastructure/repositories/cars-repositories-api";
 import { GetCars } from "../../application/use-cases/get-customer";

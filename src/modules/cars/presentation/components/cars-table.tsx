@@ -8,9 +8,9 @@ import { getCarsColumns } from "../config/column";
 import { DataGridErrorOverlay } from "../../../../shared/components/ui/data-grid-error-overlay";
 
 type Props = {
-  cars: Cars[];
+  cars: Cars[] | undefined;
   loading?: boolean;
-  error?: string | null;
+  error?: boolean | string;
   onRetry?: () => void;
 };
 
@@ -43,7 +43,10 @@ export function CarsDataGrid({ cars, loading, error, onRetry }: Props) {
         slots={{
           noRowsOverlay: () =>
             error ? (
-              <DataGridErrorOverlay message={error} onRetry={onRetry} />
+              <DataGridErrorOverlay
+                message={typeof error === "string" ? error : "Ocorreu um erro"}
+                onRetry={onRetry}
+              />
             ) : (
               <Box
                 sx={{

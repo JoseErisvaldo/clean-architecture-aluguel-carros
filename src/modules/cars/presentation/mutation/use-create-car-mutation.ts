@@ -28,8 +28,8 @@ export function useCreateCar() {
     },*/
 
     //Caso queria controlar o erro em cada componente, pode-se usar o onError do useMutation e passar skipGlobalError: true aqui, porem a configuracao glocal deve ter a validacao para verificar se o erro tem essa flag, caso tenha, nao exibe o toast global
-    meta: {
+    /*meta: {
       skipGlobalError: true,
-    },
+    },*/
   });
 }

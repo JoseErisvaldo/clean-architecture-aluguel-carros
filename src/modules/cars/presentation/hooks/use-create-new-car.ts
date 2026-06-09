@@ -87,6 +87,7 @@ export function useCreateNewCar({
     const createCarDTO: CreateCarDTO = CreateCarSchema.parse(data);
     mutate(createCarDTO, {
       onSuccess: () => {
+        handleCloseDrawer();
         reset();
       },
     });

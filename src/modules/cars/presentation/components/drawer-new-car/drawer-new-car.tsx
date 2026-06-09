@@ -43,8 +43,8 @@ export default function DrawerNewCar({
     control,
     errors,
     isPending,
-    errorDtails,
-    isSuccess,
+    //isSuccess,
+    //errorDtails,
   } = useCreateNewCar({
     handleCloseDrawer,
   });
@@ -56,8 +56,12 @@ export default function DrawerNewCar({
       handleCloseDrawer={handleCloseDrawer}
       onSubmit={handleSubmit(onSubmit)}
       loading={isPending}
-      error={errorDtails ? errorDtails.message : null}
-      success={isSuccess}
+      //success={isSuccess}
+      //error={
+      //  errorDtails
+      //    ? "Erro ao criar carro. Verifique os dados e tente novamente."
+      //    : null
+      //}
     >
       <Box display="flex" flexDirection="column" gap={2}>
         <Controller

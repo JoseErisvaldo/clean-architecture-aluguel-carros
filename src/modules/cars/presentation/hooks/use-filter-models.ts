@@ -1,5 +1,5 @@
 // Este codigo vai ficar a fins de exemplo de como usar o useCars e useCarById
-
+/*
 import { useEffect, useState } from "react";
 import { GetFilterModels } from "../../../../shared/cross-features/filter-models/application/use-cases/get-filter-models";
 import type { FilterModels } from "../../../../shared/cross-features/filter-models/domain/entities/filter-models";
@@ -50,3 +50,4 @@ export function useFilterModels() {
     error,
   };
 }
+*/

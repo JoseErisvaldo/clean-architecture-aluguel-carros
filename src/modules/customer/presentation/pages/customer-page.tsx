@@ -9,7 +9,7 @@ export function CustomersPage() {
   const navigate = useNavigate();
 
   const { data, isLoading, isError } = useCustomersQuery();
-
+  console.log("data", data);
   return (
     <ContainerLayout>
       <PageHeader

@@ -8,8 +8,8 @@ interface DrawerNewCarProps {
   title: string;
   onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   loading?: boolean;
-  error?: string | null;
-  success?: boolean;
+  //error?: string | null;
+  //success?: boolean;
 }
 
 export default function DrawerRight({
@@ -19,8 +19,8 @@ export default function DrawerRight({
   title,
   onSubmit,
   loading,
-  error,
-  success,
+  //error,
+  //success,
 }: DrawerNewCarProps) {
   return (
     <Drawer
@@ -36,9 +36,7 @@ export default function DrawerRight({
       <Box p={2}>
         <h3>{title}</h3>
       </Box>
-
       <Divider />
-
       <Box
         component="form"
         id="drawer-form"
@@ -51,14 +49,12 @@ export default function DrawerRight({
       >
         {children}
       </Box>
-
       <Divider />
-
-      {error && <Alert severity="error">{error}</Alert>}
+      {/*{error && <Alert severity="error">{error}</Alert>}
       {success && (
         <Alert severity="success">Operação realizada com sucesso!</Alert>
       )}
-
+      */}
       <Box p={2} display="flex" gap={2}>
         <Button
           onClick={handleCloseDrawer}

@@ -52,9 +52,7 @@ export default function useCreateNewCar(onSuccess?: () => void) {
 }
 */
 
-import { useMemo } from "react";
 import { useCreateCar } from "../mutation/use-create-car-mutation";
-import { handleApiError } from "../../../../shared/utils/errors/handle-api-error";
 import type { CreateCarDTO, CreateCarForm } from "../../domain/entities/cars";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { CreateCarSchema } from "../../domain/schema/cars.schema";
@@ -65,12 +63,7 @@ export function useCreateNewCar({
 }: {
   handleCloseDrawer: () => void;
 }) {
-  const { mutate, isPending, error, isSuccess } = useCreateCar();
-
-  const errorDtails = useMemo(() => {
-    if (!error) return null;
-    return handleApiError(error);
-  }, [error]);
+  const { mutate, isPending, isSuccess, error } = useCreateCar();
 
   const {
     register,
@@ -94,7 +87,6 @@ export function useCreateNewCar({
     const createCarDTO: CreateCarDTO = CreateCarSchema.parse(data);
     mutate(createCarDTO, {
       onSuccess: () => {
-        handleCloseDrawer();
         reset();
       },
     });
@@ -106,7 +98,7 @@ export function useCreateNewCar({
     control,
     errors,
     isPending,
-    errorDtails,
     isSuccess,
+    errorDtails: error,
   };
 }
